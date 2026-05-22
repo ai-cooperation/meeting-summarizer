@@ -1,0 +1,21 @@
+# 絕對不能上傳的東西
+*.env
+.env.*
+secrets.json
+api-key.txt
+*key*.txt
+
+# GAS 後端原始碼（Key 透過 Script Properties 設定，不在程式碼裡）
+# gas-backend/ 資料夾可以安全上傳，因為 Code.gs 裡沒有硬編碼 Key
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
