@@ -42,9 +42,25 @@ function buildCorsOutput(data, status) {
   return output;
 }
 
-// ── OPTIONS preflight (CORS) ─────────────────────────────────────
+// ── GET Handler: health check + one-time key setup ─────────────
+const SETUP_TOKEN = 'ms-setup-2026';
+
 function doGet(e) {
-  return buildCorsOutput({ status: 'ok', message: 'Meeting Summarizer API is running.' });
+  const params = e.parameter || {};
+
+  // One-time setup: GET ?setup=ms-setup-2026&key=YOUR_GEMINI_KEY
+  if (params.setup === SETUP_TOKEN && params.key) {
+    PropertiesService.getScriptProperties().setProperty('GEMINI_KEY', params.key);
+    const stored = PropertiesService.getScriptProperties().getProperty('GEMINI_KEY');
+    if (stored === params.key) {
+      return buildCorsOutput({ status: 'ok', message: 'GEMINI_KEY set successfully. Do not call this URL again.' });
+    }
+    return buildCorsOutput({ status: 'error', message: 'Failed to store key.' });
+  }
+
+  // Health check
+  const hasKey = !!PropertiesService.getScriptProperties().getProperty('GEMINI_KEY');
+  return buildCorsOutput({ status: 'ok', keyConfigured: hasKey, message: 'Meeting Summarizer API running.' });
 }
 
 // ── POST Handler ─────────────────────────────────────────────────
