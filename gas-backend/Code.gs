@@ -157,7 +157,9 @@ function callGemini(apiKey, prompt) {
     ],
     generationConfig: {
       temperature:     0.3,
-      maxOutputTokens: 2048,
+      // 2048 對 5-section 詳細摘要太小,1000+ 字逐字稿會在「行動項目」前被截。
+      // gemini-2.5-flash 支援 8192 output tokens。
+      maxOutputTokens: 8192,
       topP:            0.8,
     },
     safetySettings: [
