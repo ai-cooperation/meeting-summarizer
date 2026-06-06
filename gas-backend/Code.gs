@@ -30,7 +30,8 @@
  */
 
 // ── Constants ────────────────────────────────────────────────────
-const GEMINI_MODEL = 'gemini-1.5-flash';
+// 2026-06-06: gemini-1.5-flash 已被 Google 停用,改 2.5-flash (v1beta 仍可用)
+const GEMINI_MODEL = 'gemini-2.5-flash';
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const MAX_INPUT_CHARS = 50000; // 防止過長輸入
 

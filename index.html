@@ -587,7 +587,10 @@
     try {
       const response = await fetch(GAS_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        // 不用 'Content-Type: application/json' — 會觸發 CORS preflight,而 GAS Web App
+        // 不支援 OPTIONS method,preflight 回 405 造成「Failed to fetch」。
+        // text/plain 是 CORS simple request,body 仍是 JSON 字串,後端 JSON.parse 正常解析。
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           transcript,
           style:  styleSelect.value,
